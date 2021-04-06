@@ -4,13 +4,11 @@
     // the DOM will be available here
     const path = window.location.pathname.split("/");
     const vendorName = path.pop();
-    // const shopHost = window.location.hostname.split(".myshopify.com");
     const shopHost = "{{ shop.permanent_domain }}".split(".myshopify.com");
     const shop = shopHost && shopHost[0];
-    const url = "https://brands.marketcube.io/brand/" + shop + "/" + vendorName;
+    const url = "https://brand-pages.marketcube.io/brand/" + shop + "/" + vendorName;
     document.getElementById("vendorPage").src=url;
   });
-  // page-width
 </script>
 <div class="">
   <div class="grid">
