@@ -1,0 +1,26 @@
+<script type="text/javascript">
+  // self executing function here
+  document.addEventListener("DOMContentLoaded", function(event) {
+    // the DOM will be available here
+    const path = window.location.pathname.split("/");
+    const vendorName = path.pop();
+    // const shopHost = window.location.hostname.split(".myshopify.com");
+    const shopHost = "{{ shop.permanent_domain }}".split(".myshopify.com");
+    const shop = shopHost && shopHost[0];
+    const url = "https://brands.marketcube.io/brand/" + shop + "/" + vendorName;
+    document.getElementById("vendorPage").src=url;
+  });
+  // page-width
+</script>
+<div class="">
+  <div class="grid">
+    <div class="grid__item">
+      <div class="section-header text-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+      <div class="rte">
+        <iframe id="vendorPage" src="" name="{{ shop.secure_url }}" scrolling="yes" height="1200px" width="100%" style="border: none"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
