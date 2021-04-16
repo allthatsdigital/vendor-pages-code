@@ -4,6 +4,7 @@
 3. Choose "Create a new template for page" called "Name of page"
 4. Once page is created add a code 
 
+```
 <script type="text/javascript">
   // self executing function here
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -18,7 +19,8 @@
   });
   // page-width
 </script>
-       <iframe id="vendorPage" src="" name="{{ shop.secure_url }}" scrolling="yes" height="1200px" width="100%" style="border: none"></iframe>
+<iframe id="vendorPage" src="" name="{{ shop.secure_url }}" scrolling="yes" height="1200px" width="100%" style="border: none"></iframe>
+```
        
 ### Step 2: Add a page usning the created template. (/admin/pages)
 1. Click on add page 
