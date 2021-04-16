@@ -36,11 +36,12 @@
 - Find the file from which the vendor is renderring on product page  (This is different in case of different themes or the customization done in the theme)
 Code needs to be added is :
 ```
-{% if product.metafields.marketcube.brandSlug %}
-  <a href="/pages/brand/{{ product.metafields.marketcube.brandSlug }}" 
-     title="{{ product.vendor }}" data-slug="{{ product.metafields.marketcube.brandSlug }}">{{ product.vendor }}</a>
-{%- else -%}
-  <a href="/pages/brand/{{ product.vendor }}" 
-     title="{{ product.vendor }}">{{ product.vendor }}</a>
-     {{ product.metafields.marketcube.brandSlug }}
+       {% if product.metafields.marketcube.brandSlug %}
+                  <a href="/pages/brand/{{ product.metafields.marketcube.brandSlug }}" 
+                     title="{{ product.vendor }}" data-slug="{{ product.metafields.marketcube.brandSlug }}">{{ product.vendor }}</a>
+                {%- else -%}
+                  <a href="/pages/brand/{{ product.vendor }}" 
+                     title="{{ product.vendor }}">{{ product.vendor }}</a>
+                     {{ product.metafields.marketcube.brandSlug }}
+         {%- endif -%}
 ```
