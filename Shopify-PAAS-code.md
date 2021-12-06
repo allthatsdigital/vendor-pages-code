@@ -1301,198 +1301,199 @@ Theme will be added in the theme library. Now go to  -
 3. Save the file
 4. click on **Add a new asset** >> click on **Create a blank file** and add  **custom.css.liquid** and copy following code - 
 
->     /* Popup box BEGIN */
->     .hover_bkgr_fricc{
->         background:rgba(0,0,0,.4);
->         cursor:pointer;
->         display:none;
->         height:100%;
->         position:fixed;
->       	left:0;
->         text-align:center;
->         top:0;
->         width:100%;
->         z-index:10000;
->     }
->     .hover_bkgr_fricc .helper{
->         display:inline-block;
->         height:100%;
->         vertical-align:middle;
->     }
->     .hover_bkgr_fricc > div {
->       	background-color: #fff;
->         box-shadow: 10px 10px 60px #555;
->         display: inline-block;
->         height: auto;
->         max-width: 1000px;
->         min-height: 720px;
->         vertical-align: middle;
->         width: 100%;
->         position: relative;
->         border-radius: 8px;
->     }
->     .popupCloseButton {
->         background-color: #fff;
->     /*     border: 3px solid #999; */
->         border-radius: 50px;
->         cursor: pointer;
->         display: inline-block;
->         font-family: arial;
->         font-weight: bold;
->         position: absolute;
->         top: -20px;
->         right: -20px;
->         font-size: 25px;
->         line-height: 30px;
->         width: 30px;
->         height: 30px;
->         text-align: center;
->     }
->     .popupCloseButton:hover {
->         background-color: #ccc;
->     }
->     .trigger_popup_fricc {
->         cursor: pointer;
->         display: block;
->         width: 100%;
->         line-height: 1.4;
->         padding-left: 5px;
->         padding-right: 5px;
->         white-space: normal;
->         margin-top: 0;
->         margin-bottom: 10px;
->         min-height: 44px;
->     }
->     iframe#myframe {
->         width: 100%;
->         border: none;
->         display: block;
->         height: 720px;
->     }
->     /* Popup box BEGIN */
->     
->     /* time frame */
->     .expireTime {
->         padding: 5px 0px;
->     }
->     
->     span#demo {
->         font-weight: bold;
->     }
->     
->     /* loader  */
->     
->     #loader1 {
->       	position: absolute;
->         top: 50%;
->         left: 50%;
->         z-index: 9999;
->     }
->     
->     /* Absolute Center Spinner */
->     .loading {
->       position: relative;
->       overflow: show;
->       margin: auto;
->       top: 0;
->       left: 0;
->       bottom: 0;
->       right: 0;
->     }
->     
->     /* Transparent Overlay */
->     .loading:before {
->       content: '';
->       display: block;
->       position: fixed;
->       top: 0;
->       left: 0;
->       z-index: 999;
->       width: 100%;
->       height: 100%;
->         background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
->     
->       background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
->     }
->     
->     /* :not(:required) hides these rules from IE9 and below */
->     
->     .loading:not(:required):after {
->       content: '';
->       display: block;
->       font-size: 10px;
->       width: 1em;
->       height: 1em;
->       margin-top: -0.5em;
->       -webkit-animation: spinner 150ms infinite linear;
->       -moz-animation: spinner 150ms infinite linear;
->       -ms-animation: spinner 150ms infinite linear;
->       -o-animation: spinner 150ms infinite linear;
->       animation: spinner 150ms infinite linear;
->       border-radius: 0.5em;
->       -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0
-> 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em
-> -1.1em 0 0;
->     box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75)
-> -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em
-> -1.1em 0 0;
->     }
->     
->     .cart__qty {
->         pointer-events: none;
->     }
->     
->     /* ul.product-details li:nth-child(4), .inputQuantity {
->         display: none;
->     } */
->     
->     .inputQuantity {
->         display: none;
->     }
->     
->     /* Popup box BEGIN */
->     .timerPopUp{
->         background:rgba(0,0,0,.4);
->         cursor:pointer;
->         display:none;
->         height:100%;
->         position:fixed;
->         text-align:center;
->         top:0;
->       	left:0;
->         width:100%;
->         z-index:10000;
->     }
->     .timerPopUp .helper{
->         display:inline-block;
->         height:100%;
->         vertical-align:middle;
->     }
->     .timerPopUp > div {
->         background-color: #fff;
->         box-shadow: 10px 10px 60px #555;
->         display: inline-block;
->         height: auto;
->         max-width: 551px;
->         min-height: 100px;
->         vertical-align: middle;
->         width: 60%;
->         position: relative;
->         border-radius: 8px;
->         padding: 15px 5%;
->     }
->     .timerCloseButton:hover {
->         background-color: #ccc;
->     }
->     /* Popup box BEGIN */
+/* custom.css.liquid */
+	
 
-6.  click on **Save**
-7.  Add following code just above `<script>` tag and after `<style>` tag
+    /* Popup box BEGIN */
+        .hover_bkgr_fricc{
+            background:rgba(0,0,0,.4);
+            cursor:pointer;
+            display:none;
+            height:100%;
+            position:fixed;
+          	left:0;
+            text-align:center;
+            top:0;
+            width:100%;
+            z-index:10000;
+        }
+
+    .hover_bkgr_fricc .helper{
+        display:inline-block;
+        height:100%;
+        vertical-align:middle;
+    }
+    .hover_bkgr_fricc > div {
+      	background-color: #fff;
+        box-shadow: 10px 10px 60px #555;
+        display: inline-block;
+        height: auto;
+        max-width: 1000px;
+        min-height: 720px;
+        vertical-align: middle;
+        width: 100%;
+        position: relative;
+        border-radius: 8px;
+    }
+    .popupCloseButton {
+        background-color: #fff;
+    /*     border: 3px solid #999; */
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: arial;
+        font-weight: bold;
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        font-size: 25px;
+        line-height: 30px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+    }
+
+    .popupCloseButton:hover {
+        background-color: #ccc;
+    }
+    .trigger_popup_fricc {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        line-height: 1.4;
+        padding-left: 5px;
+        padding-right: 5px;
+        white-space: normal;
+        margin-top: 0;
+        margin-bottom: 10px;
+        min-height: 44px;
+    }
+    iframe#myframe {
+        width: 100%;
+        border: none;
+        display: block;
+        height: 720px;
+    }
+    /* Popup box BEGIN */
+
+    /* time frame */
+    .expireTime {
+        padding: 5px 0px;
+    }
+    
+    span#demo {
+        font-weight: bold;
+    }
+    
+    /* loader  */
+    
+    #loader1 {
+      	position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 9999;
+    }
+
+    /* Absolute Center Spinner */
+    .loading {
+      position: relative;
+      overflow: show;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+    
+    /* Transparent Overlay */
+    .loading:before {
+      content: '';
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      width: 100%;
+      height: 100%;
+        background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
+    
+      background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
+    }
+
+    /* :not(:required) hides these rules from IE9 and below */
+    
+    .loading:not(:required):after {
+      content: '';
+      display: block;
+      font-size: 10px;
+      width: 1em;
+      height: 1em;
+      margin-top: -0.5em;
+      -webkit-animation: spinner 150ms infinite linear;
+      -moz-animation: spinner 150ms infinite linear;
+      -ms-animation: spinner 150ms infinite linear;
+      -o-animation: spinner 150ms infinite linear;
+      animation: spinner 150ms infinite linear;
+      border-radius: 0.5em;
+      -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+    box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+    }
+
+    .cart__qty {
+        pointer-events: none;
+    }
+    
+    /* ul.product-details li:nth-child(4), .inputQuantity {
+        display: none;
+    } */
+    
+    .inputQuantity {
+        display: none;
+    }
+    
+    /* Popup box BEGIN */
+    .timerPopUp{
+        background:rgba(0,0,0,.4);
+        cursor:pointer;
+        display:none;
+        height:100%;
+        position:fixed;
+        text-align:center;
+        top:0;
+      	left:0;
+        width:100%;
+        z-index:10000;
+    }
+    .timerPopUp .helper{
+        display:inline-block;
+        height:100%;
+        vertical-align:middle;
+    }
+    .timerPopUp > div {
+        background-color: #fff;
+        box-shadow: 10px 10px 60px #555;
+        display: inline-block;
+        height: auto;
+        max-width: 551px;
+        min-height: 100px;
+        vertical-align: middle;
+        width: 60%;
+        position: relative;
+        border-radius: 8px;
+        padding: 15px 5%;
+    }
+    .timerCloseButton:hover {
+        background-color: #ccc;
+    }
+    /* Popup box BEGIN */
+
+5.  click on **Save**
+6.  Add following code just above `<script>` tag and after `<style>` tag
 
       {{ 'custom.css' | asset_url | stylesheet_tag }}
 
-8. Click save
-9. Now link  **custom.js and other required libraries** by adding following code in **theme.liquid** (same file as mentioned in point 6) before `<head>` tag.
+7. Click save
+8. Now link  **custom.js and other required libraries** by adding following code in **theme.liquid** (same file as mentioned in point 6) before `<head>` tag.
 
 >     <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>  
 >       
@@ -1502,6 +1503,6 @@ Theme will be added in the theme library. Now go to  -
 > 
 >     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-10.  Click Save.
+9.  Click Save.
 
 
