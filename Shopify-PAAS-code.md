@@ -732,627 +732,571 @@ Theme will be added in the theme library. Now go to  -
 1. Client on **Asset** >> click **Add a new asset**
 2. **Create a blank file** >> Add file **custom.js** and copy below code -     
 
->  var interval;
->     // var tempId;
->     var cartItem;
->     var slotServiceId = $('#serviceId').val();
->     //     "5f7c42b672061e0d535f6d6e";
->     //     $('#serviceId').val();
->     //     "5f7c42b672061e0d535f6d6e";
->     //     '5f6f1f0bf837022373a3bbd4';
->     //5f52134e09967f0030548058
->     var token = "token";
->     var serviceUrl = "https://beta-service.marketcube.io/api";
->     //     "https://beta-service.marketcube.io/api";
->     //     "https://beta-service.marketcube.io/api";
->     //     "https://dev-service.marketcube.io/api";  
->     // http://localhost:8000/api
->         //"https://dev-service.marketcube.io/api";
->     //     "https://mc-dev-api-gateway.onrender.com";
->     //     "http://localhost:8000/api"; 
->     //     "https://magic-sauce-service-dev-wymchqsmda-uc.a.run.app/api";
->     // "https://mc-dev-api-gateway.onrender.com";
->         //"http://localhost:8000/api"
->     //     "https://mc-product-as-a-service-server.onrender.com/api";
->     var clientUrl = "https://mc-beta-paas-ui.onrender.com";
->     //     "https://mc-product-as-a-service-ui.onrender.com"; 
->     //     "https://mc-beta-paas-ui.onrender.com";
->     //     "https://mc-product-as-a-service-ui.onrender.com";
->     //     "https://mc-product-as-a-service-ui.onrender.com";
->     //     "https://mc-product-as-a-service-ui.onrender.com";
->     //     "http://localhost:3000"
->     //     "https://mc-product-as-a-service-ui.onrender.com";
->     // "https://mc-product-as-a-service-ui.onrender.com";
->     var timeObj = {};
->     var tempTimeObj = {};
->     var timerObj = {};
->     var tempTimerObj = {};
->     
->     
->     async function userIp() {
->         let result = await $.getJSON("https://api.ipify.org?format=json",
->             function (data) {
->                 return data.ip;
->             })
->         return result.ip;
->     }
->     
->     async function createToken() {
->         let ip = await userIp();
->         let dt = new Date();
->         let time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
->         let date = dt.getDate() + "-" + (dt.getMonth() + 1) + "-" + dt.getFullYear();
->         // Encrypt
->         const encryptdata = `${ip}${date}${time}`;
->         let ciphertext = CryptoJS.AES.encrypt(encryptdata, 'custom').toString();
->         ciphertext = ciphertext.replace(/[^a-zA-Z ]/g, "");
->         console.log('ciphertext', ciphertext);
->         // Decrypt
->         //   let bytes = CryptoJS.AES.decrypt(ciphertext.toString(), 'custom');
->         //   let plaintext = bytes.toString(CryptoJS.enc.Utf8);
->         return ciphertext;
->     }
->     
->     function setLocalStorage(key, value) {
->         return localStorage.setItem(key, value);
->     }
->     
->     function getLocalStorage(key) {
->         return localStorage.getItem(key);
->     }
->     
->     function removeLocalStorage(key) {
->         return localStorage.removeItem(key);
->     }
->     
->     async function checkLocalStorage() {
->         let user = getLocalStorage(token);
->         if (user != null) {
->             return user;
->         }
->         else {
->             const res = await createToken();
->             setLocalStorage(token, res);
->             let user = getLocalStorage(token);
->             return user;
->         }
->     }
->     
->     popUp = () => {
->         console.log('popup called');
->         $('.timerPopUp').show();
->         $('.timerCloseButton').click(function () {
->             $('.timerPopUp').hide();
->             $('.paymentButton').hide();
->             $('.selectedSlot').hide();
->             $('.expireTime').hide();
->             $('#Date').val('');
->             $('#Time').val('');
->             $('#service-id').val('');
->             location.reload();
->         });
->     
->     }
->     
->     serviceStatusRemove = (productId) => {
->         console.log('serviceStatusRemove productId', productId);
->         $.ajax({
->             url: `${serviceUrl}/service/booking/${productId}`,
->             type: 'PUT',
->             data: {
->                 status: 'removed',
->             },
->             error: async function () {
->                 return true;
->             },
->             success: async function (result) {
->                 console.log('result', result);
->                 return result;
->             }
->         });
->     }
->     
->     serviceStatusProvisional = (productId) => {
->         console.log('serviceStatusProvisional productId', productId);
->         $.ajax({
->             url: `${serviceUrl}/service/booking/${productId}`,
->             type: 'PUT',
->             data: {
->                 status: 'provisional',
->             },
->             error: function () {
->                 return true;
->             },
->             success: function (result) {
->                 $('.paymentButton').hide();
->                 $('.selectedSlot').hide();
->                 $('.expireTime').hide();
->                 $('#Date').val('');
->                 $('#Time').val('');
->                 $('#service-id').val('');
->             }
->         });
->     }
->     
->     function isEmptyObject(value) {
->         return Object.keys(value).length === 0 && value.constructor === Object;
->     }
->     
->     function startTimer(duration, display, productId, slotServiceId) {
->         console.log('slotServiceId', slotServiceId);
->         console.log('productId', productId);
->         let timer = 0;
->         let minutes;
->         let seconds;
->         timer = 900;
->         console.log('timer', timeObj);
->         clearInterval(interval);
->         interval = setInterval(function () {
->             minutes = parseInt(timer / 60, 10);
->             seconds = parseInt(timer % 60, 10);
->             minutes = minutes < 10 ? "0" + minutes : minutes;
->             seconds = seconds < 10 ? "0" + seconds : seconds;
->     
->             display.text(`Order will expire In ${minutes} : ${seconds}`);
->     
->             if (--timer < 0) {
->                 removeLocalStorage('Timer');
->                 serviceStatusRemove(productId, slotServiceId);
->                 popUp();
->                 display.text(` Your Order has been expired `);
->                 clearInterval(interval);
->                 return false;
->             }
->             removeLocalStorage('Timer');
->             if (tempTimeObj.hasOwnProperty(productId)) {
->                 tempTimeObj = { [productId]: timer };
->             }
->             else {
->                 tempTimeObj = { [productId]: timer };
->             }
->             setLocalStorage('Timer', JSON.stringify(tempTimeObj));
->             tempTimerObj = JSON.parse(getLocalStorage('Timer'));
->             timer = tempTimerObj[productId]
->         }, 1000);
->     }
->     
->     getKeyByValue = (object, value) => {
->         return Object.keys(object).filter(key => object[key] == value);
->     }
->     
->     getKey = (object, value) => {
->         return Object.keys(object).find(key => key == value).toString()
->     }
->     
->     getMaxValue = (object) => {
->         let arr = Object.keys(object).map(key => object[key]);
->         return Math.max(...arr);
->     }
->     
->     domFind = (deleteKey) => {
->     
->         $.getJSON('/cart.js', (cart) => {
->             console.log('cart item>>>>', cart);
->             cartItem = cart;
->         });
->         console.log('cart domFind>>>>>', cartItem)
->         removeProduct(deleteKey, cartItem)
->     
->     }
->     
->     // domFind = (deleteKey) => {
->     // 	console.log('called>>>>>>>>>>>>>>');
->     //   	console.log('dom selector',$( ".cart__row ul.product-details li:nth-child(4) .product-details__item-label" ));
->     //   	$( ".cart__row ul.product-details li:nth-child(4) .product-details__item-label" ).each(function( index ) {
->     //   		let serviceId = $(this).next().text().trim();
->     //       	let serviceIdStr = JSON.stringify(serviceId);
->     //       	let deleteKeyStr = JSON.stringify(deleteKey);
->     //       	if(deleteKeyStr.localeCompare(serviceIdStr) == 0){
->     //           	console.log('productId if',serviceId);
->     // //       		const a = $(this).find('ul.product-details').next().trigger('click')
->     //             $(this).parent().parent().parent().find('.cart__remove
-> a').trigger('click');
->     // //           	console.log('valTrigger',valTrigger);
->     // //             $('.cart').load(location.href + '#PageContainer');	
->     //           		setTimeout(() => {  
->     // //                 	location.reload()
->     // //               $.get(`${location.href}/cart`, function(data) {
->     // //                   		console.log('data>>>>',data)
->     // //                         $('.template-cart').load(data);
->     // // //                   		$("#pageContainer").load(location.href + '#pageContainer');
->     // //   					});
->     //                  $('.template-cart').load(location.href + '#PageContainer');	
->     // //           		$('#PageContainer').html(a);
->     //                 }, 4000);
->     // //             console.log(a)
->     //         }
->     // 	});
->     
->     // }
->     
->     function cartTimer(productId, duration) {
->         console.log('duration', duration);
->         console.log('productId', productId);
->         localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
->         //     localStorageObjStringify = JSON.stringify(getLocalStorage('cartTimer'));
->         console.log('localStorageObj', localStorageObj);
->         //   	console.log('localStorageObjStringify>>>>>>>>>>>>>',localStorageObjStringify);
->         let timer = 0;
->         let minutes;
->         let seconds;
->         timer = duration;
->         //     clearInterval(interval);
->         let interval = setInterval(function () {
->             minutes = parseInt(timer / 60, 10);
->             seconds = parseInt(timer % 60, 10);
->             minutes = minutes < 10 ? "0" + minutes : minutes;
->             seconds = seconds < 10 ? "0" + seconds : seconds;
->             let checkValue = getKeyByValue(localStorageObj, "0");
->             //       	console.log('timer>>>>>>>>>',timer);
->             //       	console.log('checkValue in cartTimer>>>>',checkValue)
->             if (checkValue.length > 0) {
->                 localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
->                 checkValue.map(item => {
->                     if (localStorageObj.hasOwnProperty(checkValue)) {
->                         //                 console.log('caleed');
->                         let deleteKey = getKey(localStorageObj, checkValue);
->                         //                 console.log('deleteKey in cartTimer >>>>',deleteKey);
->                         //                 console.log('deleteKey in cartTimer >>>>',JSON.stringify(deleteKey));
->                         //                 popUp();
->                         domFind(deleteKey)
->                         delete localStorageObj[deleteKey];
->                         serviceStatusRemove(deleteKey, slotServiceId)
->                         //                 console.log('localStorageObj in cartTimer',localStorageObj)
->                         setLocalStorage('cartTimer', JSON.stringify(localStorageObj));
->                     }
->                     //               $('.form.cart').
->                 });
->             }
->             if (--timer < 0) {
->                 console.log('cleed')
->                 //           	popUp();
->                 //           	removeLocalStorage('cartTimer');
->                 //             $('.cart__remove a').trigger('click')
->                 clearInterval(interval);
->                 return false;
->             }
->             if (localStorageObj.hasOwnProperty(productId)) {
->                 //       		console.log('orp',productId);
->                 //           	console.log('timer',timer);
->                 let addObj = $.extend(true, localStorageObj, {
->                     [String(productId)]: timer,
->                     //               localStorageObj[productId]: timer
->                 });
->                 //           	console.log('addObj',addObj)
->                 removeLocalStorage('cartTimer');
->                 localStrageObj = { ...addObj }
->                 //             console.log('localStorageObj',localStorageObj);
->                 setLocalStorage('cartTimer', JSON.stringify(localStrageObj));
->                 timerObj = JSON.parse(getLocalStorage('cartTimer'));
->                 //           	console.log('timerObj',timerObj)
->                 timer = timerObj[productId]
->                 //           	console.log('timer',timer)
->             }
->             //         removeLocalStorage('Timer');
->             //      setLocalStorage('cartTimer', timer);
->             //      timer = getLocalStorage('Timer');
->         }, 1000);
->     }
->     
->     getMapValue = (obj, key) => {
->         //   	console.log('obj',obj);
->         //   	console.log('key',key);
->         if (obj.hasOwnProperty(key))
->             return obj[key];
->         throw new Error("Invalid map key.");
->     }
->     
->     cartTimerIntialization = (productId) => {
->         console.log('cartTimerIntialization', productId)
->         if (productId) {
->             //       console.log('callled')
->             //       console.log('getLocalStorage',getLocalStorage('cartTimer'));
->             localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
->             console.log('localStorageObj', localStorageObj)
->             timer = getMapValue(localStorageObj, productId);
->             //       console.log('timer',timer);
->             //       if(timer == 0){
->             //       	console.log('ddddd');
->             //       	$('.cart__remove').trigger('click')
->             //       }
->             //       else
->             //       {
->             //       	cartTimer(productId,timer)
->             //       }
->             console.log('getMaxValue', getMaxValue(localStorageObj));
->             cartTimer(productId, timer)
->         }
->     
->     }
->     
->     cartContents = () => {
->         console.log('called cartcontents')
->         $.getJSON('/cart.js', (cart) => {
->             console.log('cart item>>>>', cart);
->             cartItem = cart;
->             cart.items.map(item => {
->                 //       	console.log('item',item);
->                 //       	tempId = item.properties['service-id'];
->                 let productId = getMapValue(item.properties, 'service-id');
->                 cartTimerIntialization(productId);
->             })
->             //      removeProduct(tempId,cartItem);
->         });
->     }
->     
->     removeProduct = (tempId, cartItem) => {
->         let index = cartItem.items.findIndex(p => {
->             return p.properties['service-id'] == tempId
->         });
->         var data = {
->             'quantity': 0,
->             'line': index + 1,
->         }
->     
->         $.ajax({
->             type: 'post',
->             url: '/cart/change.js',
->             data: data,
->             success: function (res) {
->                 console.log("removeProduct response>>>>>>>", res);
->                 popUp();
->     //           	$('.template-cart').load(location.href + '#PageContainer');
->             },
->             dataType: 'json'
->         });
->     }
->     
->     serviceIdCheck = () => {
->       console.log('calledd>>>>')
->       let variantId = window.location.search.split('variant=')[1] || $('#variant').attr('data-variant');
->         let shopifyProductId = $('#shopifyProductId').attr('data-variant');
->          $('#variant').attr('data-variant',variantId);
->     	  	console.log('variantId',variantId);
->         	console.log('shopifyProductId',shopifyProductId);
->         	$.ajax({
->               type:'get',
->               url:`https://${window.location.hostname}/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
->               //`https://product-as-a-service.myshopify.com/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
->               success: function (result) {
->                 console.log('>>>>>>>>>>>>>>',result)
->                 if(result.metafields.length > 0){
->     //             $('#serviceTag').val(result.metafields[0].key)
->                 console.log('result',result.metafields);
->                 $('#serviceId').val(result.metafields[0].value);
->                 slotServiceId = $('#serviceId').val();
->                   if(result.metafields[0].value){
->                   	$('.trigger_popup_fricc').show();
->                     $('.paymentButton').hide();
->                     console.log('slotServiceId',slotServiceId)
->                   }
->                 }
->                 else{
->                   $('#serviceId').val('');
->     //               $('#service-id').val('');
->                   $('.trigger_popup_fricc').hide();
->                   $('.paymentButton').show();
->                 }
->               	
->               }
->             })
->     }
->     $(document).ready(function () {
->       //variant
->     //   $('.selector-wrapper.js.product-form__item').hide();
->       //end
->       	console.log('location>>>>');
->         $.ajax({
->             type: 'get',
->             url: '/admin/api/2020-10/locations.json',
->             success: function (res) {
->                 console.log("location response>>>>>>>", res);
->             },
->         });
->       	$.ajax({
->             type: 'get',
->             url: '/admin/api/2020-10/storefront_access_tokens.json',
->             success: function (res) {
->                 console.log("storefront access tokens>>>>>>>", res);
->             },
->         });
->       	$.ajax({
->             type: 'get',
->             url: '/admin/api/2020-10/shop.json',
->             success: function (res) {
->                 console.log("shop response>>>>>>>", res);
->             },
->         });
->     //   	$('.trigger_popup_fricc').hide();
->         let productId;
->         let display = $('#demo');
->         cartContents();
->       	if( window.location.search.split('variant=')[1] || $('#variant').attr('data-variant')){ 
->           	console.log('>>>>>>>lkdldksslk')
->       		serviceIdCheck();
->       	 }
->      	 $('select#SingleOptionSelector-0').click(function(){
->        		serviceIdCheck();
->         });
->         let serviceTag = $('#serviceTag').val();
->      	console.log('serviceTag',serviceTag)
->         if (serviceTag === 'serviceId') {
->             $('.paymentButton').hide();
->     		console.log('inside side')
->             $(".trigger_popup_fricc").click(async function () {
->                 const token = await checkLocalStorage();
->               console.log('clientUrl', clientUrl);
->               let shopifyProductId = $('#shopifyProductId').attr('data-variant');
->               var shopifyToken = "2e0182580669522fa232501231d70721";
->               console.log('shopifyProductId', shopifyProductId);
->                 $('.hover_bkgr_fricc').show();
->                    $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}`);
->     //            $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}&productId=${shopifyProductId}&shopifyToken=${shopifyToken}`);
->             });           
->     
->     
->             // Iframe hide making get request
->             $('.hover_bkgr_fricc').click(async function () {
->                 $('#myframe').attr('src', ``);
->                 //removeLocalStorage();
->                 $('.hover_bkgr_fricc').hide();
->     
->                 let token;
->                 token = await checkLocalStorage();
->                 //removeLocalStorage();
->                 $.ajax({
->                     url: `${serviceUrl}/service/bookings/?token=${token}`,
->                     type: 'GET',
->                     data: {
->                         status: 'inProgress',
->                         serviceId: slotServiceId
->                     },
->                     error: function () {
->                         return true;
->                     },
->                     success: function (result) {
->                         if (result.data.length) {
->                             $('.selectedSlot').show();
->                             $('.expireTime').show();
->                             productId = result.data[0]._id
->                             let quantity = result.data[0].quantity;
->                           	// for variant
->     //                       for(let i= 0 ; i < result.data[0].metafields.length ; i++){
->     //                         console.log('element', result.data[0].metafields[i]);
->     //                          const varaintPositionID = `#SingleOptionSelector-${result.data[0].metafields[i].position}`;
->     //                       	 const variantLabel = result.data[0].metafields[i].namespace;
->     //                       	 const variantName = result.data[0].metafields[i].variantName;
->     //                          console.log('varaintPositionID', varaintPositionID);
->     //                       $(varaintPositionID).val(variantName).change();
->     //                         $('.selector-wrapper.js.product-form__item').show();
->                           
->     //                       };
->                                  	
->                          	// end
->                             console.log('result',result)
->                             $('#quantity').val(`${quantity}`);
->                             let slotStartTime = new Date(result.data[0].startTime);
->                             let startDateSlot = `${slotStartTime.getDate()}-${slotStartTime.getMonth() +
-> 1}-${slotStartTime.getFullYear()}`;
->                             //           console.log('date === ', startDateSlot);
->                             let startTimeSlot = `${slotStartTime.getHours()}:${(slotStartTime.getMinutes()) < 10 ? '0'
-> : ''}${slotStartTime.getMinutes()}`;
->                           	console.log('slotStartTime',slotStartTime)
->                             console.log('startTimeSlot',startTimeSlot)
->                             console.log('slotStartTime',slotStartTime.getMinutes())
->     
->     
->                             const slotEndTime = new Date(result.data[0].endTime);
->                             let endDateSlot = `${slotEndTime.getDate()}-${slotEndTime.getMonth() +
-> 1}-${slotEndTime.getFullYear()}`;
->                             let endTimeSlot = `${slotEndTime.getHours()}:${slotEndTime.getMinutes()}${(slotEndTime.getMinutes())
-> < 10 ? '0' : ''}`;
->     
->                             if (startDateSlot !== endDateSlot) {
->                                 //             console.log('adads');
->                                 $('.selectedSlot').html(`
->     			<div><b>Date:</b> ${startDateSlot} - ${endDateSlot}</div>
->               	<div><b>Slot:</b> ${startTimeSlot} - ${endTimeSlot}</div>
->               `);
->                                 $('#Date').val(`${startDateSlot} - ${endDateSlot}`);
->                                 $('#Time').val(`${startTimeSlot} - ${endTimeSlot}`);
->                                 $('#service-id').val(`${productId}`);
->                             }
->                             else {
->                                 //             console.log('eeee');
->                                 $('.selectedSlot').html(`
->               <div><b>Date:</b> ${startDateSlot}</div>
->               <div><b>Time:</b> ${startTimeSlot} - ${endTimeSlot}</div>
->               `);
->                                 $('#Date').val(`${startDateSlot}`);
->                                 $('#Time').val(`${startTimeSlot} - ${endTimeSlot}`);
->                                 $('#service-id').val(`${productId}`);
->                             }
->                             //Old date conversion
->                             let Minutes = 60 * result.data[0].expiresIn;
->                             //                         setLocalStorage('Timer', Minutes);
->                             startTimer(Minutes, display, productId, slotServiceId);
->                             $('.hover_bkgr_fricc').hide();
->                             if (result.status === 'ok') {
->                                 $('.paymentButton').show();
->                               $('.paymentButton .shopify-payment-button').hide();
->                               
->                             }
->                         }
->                       else{
->                         $('.selectedSlot').hide();
->                         $('.expireTime').hide();
->                         $('#Date').val('');
->                         $('#Time').val('');
->                         $('#service-id').val('');
->                       }
->                     }
->                 });
->     
->             });
->     
->     
->     
->             // Add to cart button for making status provisional
->          if(slotServiceId){
->            	console.log('slotServiceId?>>>>>>>>>>>>>>',slotServiceId)
->             $('.paymentButton').click(function () {
->                 let productId = $('#service-id').val();
->                 if (JSON.parse(getLocalStorage('Timer'))) {
->                     localStorageObj = JSON.parse(getLocalStorage('Timer'));
->                     if (localStorageObj.hasOwnProperty(productId)) {
->                         timer = localStorageObj[productId];
->                         timeObj = JSON.parse(getLocalStorage('cartTimer'));
->                         if (timeObj) {
->                             console.log('timeObj if block', timeObj)
->                             timeObj = { ...timeObj, ...{ [String(productId)]: timer } }
->                         }
->                         else {
->                             timeObj = { [String(productId)]: timer }
->                         }
->                         setLocalStorage('cartTimer', JSON.stringify(timeObj));
->                     }
->                 }
->                 else {
->                     console.log('dddd>>>>else ', timeObj)
->                     timeObj = {};
->                 }
->                 cartTimerIntialization(productId)
->                 cartContents()
->                 console.log('productId',productId)
->                 console.log('slotServiceId',slotServiceId);
->           		if(productId){
->                 serviceStatusProvisional(productId);
->                 }
->             });
->     }
->     
->             window.onbeforeunload = function (event) {
->     //             $('.paymentButton').hide();
->                 $('#Date').val('');
->                 $('#Time').val('');
->                 $('#service-id').val('');
->             }
->         }
->         // cart page js for making status removed
->     
->         $('.cart__remove').click(async function () {
->           if($(this).parent().find('ul.product-details li:nth-child(4)').text()){
->               let originalId = $(this).parent().find('ul.product-details li:nth-child(4)').text();
->               let productIdSplit = originalId.split(':');
->               let productId = productIdSplit[1].trim();
->               localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
->               delete localStorageObj[productId];
->               removeLocalStorage('cartTimer');
->               setLocalStorage('cartTimer', JSON.stringify(localStorageObj));
->               await serviceStatusRemove(productId, slotServiceId);
->             }
->         });
->      });
+/* code for custom.js*/
+
+    var interval;
+	var cartItem;
+	var slotServiceId = $('#serviceId').val();
+    var token = "token";
+    var serviceUrl = "https://beta-service.marketcube.io/api";
+    var clientUrl = "https://mc-beta-paas-ui.onrender.com";
+    var timeObj = {};
+    var tempTimeObj = {};
+    var timerObj = {};
+    var tempTimerObj = {};
+
+    async function userIp() {
+        let result = await $.getJSON("https://api.ipify.org?format=json",
+            function (data) {
+                return data.ip;
+            })
+        return result.ip;
+        }
+    
+    async function createToken() {
+        let ip = await userIp();
+        let dt = new Date();
+        let time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        let date = dt.getDate() + "-" + (dt.getMonth() + 1) + "-" + dt.getFullYear();
+        // Encrypt
+        const encryptdata = `${ip}${date}${time}`;
+        let ciphertext = CryptoJS.AES.encrypt(encryptdata, 'custom').toString();
+        ciphertext = ciphertext.replace(/[^a-zA-Z ]/g, "");
+        console.log('ciphertext', ciphertext);
+        // Decrypt
+        //   let bytes = CryptoJS.AES.decrypt(ciphertext.toString(), 'custom');
+        //   let plaintext = bytes.toString(CryptoJS.enc.Utf8);
+        return ciphertext;
+    }
+    
+    function setLocalStorage(key, value) {
+        return localStorage.setItem(key, value);
+    }
+    
+    function getLocalStorage(key) {
+        return localStorage.getItem(key);
+    }
+    
+    function removeLocalStorage(key) {
+        return localStorage.removeItem(key);
+    }
+    
+    async function checkLocalStorage() {
+        let user = getLocalStorage(token);
+        if (user != null) {
+            return user;
+        }
+        else {
+            const res = await createToken();
+            setLocalStorage(token, res);
+            let user = getLocalStorage(token);
+            return user;
+        }
+    }
+
+    popUp = () => {
+        console.log('popup called');
+        $('.timerPopUp').show();
+        $('.timerCloseButton').click(function () {
+            $('.timerPopUp').hide();
+            $('.paymentButton').hide();
+            $('.selectedSlot').hide();
+            $('.expireTime').hide();
+            $('#Date').val('');
+            $('#Time').val('');
+            $('#service-id').val('');
+            location.reload();
+        });
+    
+    }
+    
+    serviceStatusRemove = (productId) => {
+        console.log('serviceStatusRemove productId', productId);
+        $.ajax({
+            url: `${serviceUrl}/service/booking/${productId}`,
+            type: 'PUT',
+            data: {
+                status: 'removed',
+            },
+            error: async function () {
+                return true;
+            },
+            success: async function (result) {
+                console.log('result', result);
+                return result;
+            }
+        });
+    }
+
+    serviceStatusProvisional = (productId) => {
+        console.log('serviceStatusProvisional productId', productId);
+        $.ajax({
+            url: `${serviceUrl}/service/booking/${productId}`,
+            type: 'PUT',
+            data: {
+                status: 'provisional',
+            },
+            error: function () {
+                return true;
+            },
+            success: function (result) {
+                $('.paymentButton').hide();
+                $('.selectedSlot').hide();
+                $('.expireTime').hide();
+                $('#Date').val('');
+                $('#Time').val('');
+                $('#service-id').val('');
+            }
+        });
+    }
+    
+    function isEmptyObject(value) {
+        return Object.keys(value).length === 0 && value.constructor === Object;
+    }
+    function startTimer(duration, display, productId, slotServiceId) {
+        console.log('slotServiceId', slotServiceId);
+        console.log('productId', productId);
+        let timer = 0;
+        let minutes;
+        let seconds;
+        timer = 900;
+        console.log('timer', timeObj);
+        clearInterval(interval);
+        interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.text(`Provisionally booked for ${minutes} : ${seconds}`);
+
+        if (--timer < 0) {
+            removeLocalStorage('Timer');
+            serviceStatusRemove(productId, slotServiceId);
+            popUp();
+            display.text(` Your Order has been expired `);
+            clearInterval(interval);
+            return false;
+        }
+        removeLocalStorage('Timer');
+        if (tempTimeObj.hasOwnProperty(productId)) {
+            tempTimeObj = { [productId]: timer };
+        }
+        else {
+            tempTimeObj = { [productId]: timer };
+        }
+        setLocalStorage('Timer', JSON.stringify(tempTimeObj));
+        tempTimerObj = JSON.parse(getLocalStorage('Timer'));
+        timer = tempTimerObj[productId]
+    }, 1000);
+    }
+    
+    getKeyByValue = (object, value) => {
+        return Object.keys(object).filter(key => object[key] == value);
+    }
+    
+    getKey = (object, value) => {
+        return Object.keys(object).find(key => key == value).toString()
+    }
+    
+    getMaxValue = (object) => {
+        let arr = Object.keys(object).map(key => object[key]);
+        return Math.max(...arr);
+    }
+    
+    domFind = (deleteKey) => {
+
+    $.getJSON('/cart.js', (cart) => {
+        console.log('cart item>>>>', cart);
+        cartItem = cart;
+    });
+    console.log('cart domFind>>>>>', cartItem)
+    removeProduct(deleteKey, cartItem)
+
+    }
+    
+    function cartTimer(productId, duration) {
+        console.log('duration', duration);
+        console.log('productId', productId);
+        localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
+        //     localStorageObjStringify = JSON.stringify(getLocalStorage('cartTimer'));
+        console.log('localStorageObj', localStorageObj);
+        //   	console.log('localStorageObjStringify>>>>>>>>>>>>>',localStorageObjStringify);
+        let timer = 0;
+        let minutes;
+        let seconds;
+        timer = duration;
+        //     clearInterval(interval);
+        let interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            let checkValue = getKeyByValue(localStorageObj, "0");
+            //       	console.log('timer>>>>>>>>>',timer);
+            //       	console.log('checkValue in cartTimer>>>>',checkValue)
+            if (checkValue.length > 0) {
+                localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
+                checkValue.map(item => {
+                    if (localStorageObj.hasOwnProperty(checkValue)) {
+                        //                 console.log('caleed');
+                        let deleteKey = getKey(localStorageObj, checkValue);
+                        //                 console.log('deleteKey in cartTimer >>>>',deleteKey);
+                        //                 console.log('deleteKey in cartTimer >>>>',JSON.stringify(deleteKey));
+                        //                 popUp();
+                        domFind(deleteKey)
+                        delete localStorageObj[deleteKey];
+                        serviceStatusRemove(deleteKey, slotServiceId)
+                        //                 console.log('localStorageObj in cartTimer',localStorageObj)
+                        setLocalStorage('cartTimer', JSON.stringify(localStorageObj));
+                    }
+                    //               $('.form.cart').
+                });
+            }
+            if (--timer < 0) {
+                console.log('cleed')
+                //           	popUp();
+                //           	removeLocalStorage('cartTimer');
+                //             $('.cart__remove a').trigger('click')
+                clearInterval(interval);
+                return false;
+            }
+            if (localStorageObj.hasOwnProperty(productId)) {
+                //       		console.log('orp',productId);
+                //           	console.log('timer',timer);
+                let addObj = $.extend(true, localStorageObj, {
+                    [String(productId)]: timer,
+                    //               localStorageObj[productId]: timer
+                });
+                //           	console.log('addObj',addObj)
+                removeLocalStorage('cartTimer');
+                localStrageObj = { ...addObj }
+                //             console.log('localStorageObj',localStorageObj);
+                setLocalStorage('cartTimer', JSON.stringify(localStrageObj));
+                timerObj = JSON.parse(getLocalStorage('cartTimer'));
+                //           	console.log('timerObj',timerObj)
+                timer = timerObj[productId]
+                //           	console.log('timer',timer)
+            }
+            //         removeLocalStorage('Timer');
+            //      setLocalStorage('cartTimer', timer);
+            //      timer = getLocalStorage('Timer');
+        }, 1000);
+    }
+    
+    getMapValue = (obj, key) => {
+        //   	console.log('obj',obj);
+        //   	console.log('key',key);
+        if (obj.hasOwnProperty(key))
+            return obj[key];
+        throw new Error("Invalid map key.");
+    }
+    
+    cartTimerIntialization = (productId) => {
+        console.log('cartTimerIntialization', productId)
+        if (productId) {
+            //       console.log('callled')
+            //       console.log('getLocalStorage',getLocalStorage('cartTimer'));
+            localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
+            console.log('localStorageObj', localStorageObj)
+            timer = getMapValue(localStorageObj, productId);
+            //       console.log('timer',timer);
+            //       if(timer == 0){
+            //       	console.log('ddddd');
+            //       	$('.cart__remove').trigger('click')
+            //       }
+            //       else
+            //       {
+            //       	cartTimer(productId,timer)
+            //       }
+            console.log('getMaxValue', getMaxValue(localStorageObj));
+            cartTimer(productId, timer)
+        }
+    
+    }
+    
+    cartContents = () => {
+        console.log('called cartcontents')
+        $.getJSON('/cart.js', (cart) => {
+            console.log('cart item>>>>', cart);
+            cartItem = cart;
+            cart.items.map(item => {
+                //       	console.log('item',item);
+                //       	tempId = item.properties['service-id'];
+                let productId = getMapValue(item.properties, 'service-id');
+                cartTimerIntialization(productId);
+            })
+            //      removeProduct(tempId,cartItem);
+        });
+    }
+    
+    removeProduct = (tempId, cartItem) => {
+        let index = cartItem.items.findIndex(p => {
+            return p.properties['service-id'] == tempId
+        });
+        var data = {
+            'quantity': 0,
+            'line': index + 1,
+        }
+    $.ajax({
+        type: 'post',
+        url: '/cart/change.js',
+        data: data,
+        success: function (res) {
+            console.log("removeProduct response>>>>>>>", res);
+            popUp();
+    //           	$('.template-cart').load(location.href + '#PageContainer');
+            },
+            dataType: 'json'
+        });
+    }
+    
+    serviceIdCheck = () => {
+      console.log('calledd>>>>')
+      let variantId = window.location.search.split('variant=')[1] || $('#variant').attr('data-variant');
+        let shopifyProductId = $('#shopifyProductId').attr('data-variant');
+         $('#variant').attr('data-variant',variantId);
+    	  	console.log('variantId',variantId);
+        	console.log('shopifyProductId',shopifyProductId);
+        	$.ajax({
+              type:'get',
+              url:`https://lnb-mc.myshopify.com/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
+              //`https://product-as-a-service.myshopify.com/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
+              success: function (result) {
+                console.log('>>>>>>>>>>>>>>',result)
+                if(result.metafields.length > 0){
+    //             $('#serviceTag').val(result.metafields[0].key)
+                console.log('result',result.metafields);
+                $('#serviceId').val(result.metafields[0].value);
+                slotServiceId = $('#serviceId').val();
+                  if(result.metafields[0].value){
+                  	$('.trigger_popup_fricc').show();
+                    $('.paymentButton').hide();
+                    console.log('slotServiceId',slotServiceId)
+                  }
+                }
+                else{
+                  $('#serviceId').val('');
+    //               $('#service-id').val('');
+                  $('.trigger_popup_fricc').hide();
+                  $('.paymentButton').show();
+                }
+          	
+          }
+        })
+    }
+    $(document).ready(function () {
+      //variant
+    //   $('.selector-wrapper.js.product-form__item').hide();
+      //end
+      	console.log('location>>>>')
+        $.ajax({
+            type: 'get',
+            url: '/admin/api/2020-10/locations.json',
+            success: function (res) {
+                console.log("location response>>>>>>>", res);
+            },
+        });
+      	$.ajax({
+            type: 'get',
+            url: '/admin/api/2020-10/storefront_access_tokens.json',
+            success: function (res) {
+                console.log("storefront access tokens>>>>>>>", res);
+            },
+        });
+      	$.ajax({
+            type: 'get',
+            url: '/admin/api/2020-10/shop.json',
+            success: function (res) {
+                console.log("shop response>>>>>>>", res);
+            },
+        });
+    //   	$('.trigger_popup_fricc').hide();
+        let productId;
+        let display = $('#demo');
+        cartContents();
+      	if( window.location.search.split('variant=')[1] || $('#variant').attr('data-variant')){ 
+          	console.log('>>>>>>>lkdldksslk')
+      		serviceIdCheck();
+      	 }
+     	 $('select#SingleOptionSelector-0').click(function(){
+       		serviceIdCheck();
+        });
+        let serviceTag = $('#serviceTag').val();
+     	console.log('serviceTag',serviceTag)
+        if (serviceTag === 'serviceId') {
+            $('.paymentButton').hide();
+    		console.log('inside side')
+            $(".trigger_popup_fricc").click(async function () {
+                const token = await checkLocalStorage();
+              console.log('clientUrl', clientUrl);
+              let shopifyProductId = $('#shopifyProductId').attr('data-variant');
+              var shopifyToken = "2e0182580669522fa232501231d70721";
+              console.log('shopifyProductId', shopifyProductId);
+                $('.hover_bkgr_fricc').show();
+                   $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}`);
+    //            $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}&productId=${shopifyProductId}&shopifyToken=${shopifyToken}`);
+            });         
+
+  
+
+
+        // Iframe hide making get request
+        $('.hover_bkgr_fricc').click(async function () {
+            $('#myframe').attr('src', ``);
+            //removeLocalStorage();
+            $('.hover_bkgr_fricc').hide();
+
+            let token;
+            token = await checkLocalStorage();
+            //removeLocalStorage();
+            $.ajax({
+                url: `${serviceUrl}/service/bookings/?token=${token}`,
+                type: 'GET',
+                data: {
+                    status: 'inProgress',
+                    serviceId: slotServiceId
+                },
+                error: function () {
+                    return true;
+                },
+                success: function (result) {
+                    if (result.data.length) {
+                        $('.selectedSlot').show();
+                        $('.expireTime').show();
+                        productId = result.data[0]._id
+                        let quantity = result.data[0].quantity;
+                      	// for variant
+    //                       for(let i= 0 ; i < result.data[0].metafields.length ; i++){
+    //                         console.log('element', result.data[0].metafields[i]);
+    //                          const varaintPositionID = `#SingleOptionSelector-${result.data[0].metafields[i].position}`;
+    //                       	 const variantLabel = result.data[0].metafields[i].namespace;
+    //                       	 const variantName = result.data[0].metafields[i].variantName;
+    //                          console.log('varaintPositionID', varaintPositionID);
+    //                       $(varaintPositionID).val(variantName).change();
+    //                         $('.selector-wrapper.js.product-form__item').show();
+                          
+    //                       };
+                             	
+                     	// end
+                        console.log('result',result)
+                        $('#quantity').val(`${quantity}`);
+                        let slotStartTime = new Date(result.data[0].startTime);
+                        let startDateSlot = `${slotStartTime.getDate()}-${slotStartTime.getMonth() + 1}-${slotStartTime.getFullYear()}`;
+                        //           console.log('date === ', startDateSlot);
+                        let startTimeSlot = `${slotStartTime.getHours()}:${(slotStartTime.getMinutes()) < 10 ? '0' : ''}${slotStartTime.getMinutes()}`;
+                      	console.log('slotStartTime',slotStartTime)
+                        console.log('startTimeSlot',startTimeSlot)
+                        console.log('slotStartTime',slotStartTime.getMinutes())
+
+
+                        const slotEndTime = new Date(result.data[0].endTime);
+                        let endDateSlot = `${slotEndTime.getDate()}-${slotEndTime.getMonth() + 1}-${slotEndTime.getFullYear()}`;
+                        let endTimeSlot = `${slotEndTime.getHours()}:${slotEndTime.getMinutes()}${(slotEndTime.getMinutes()) < 10 ? '0' : ''}`;
+
+                        if (startDateSlot !== endDateSlot) {
+                            //             console.log('adads');
+                            $('.selectedSlot').html(`
+			<div><b>Date:</b> ${startDateSlot} - ${endDateSlot}</div>
+          	<div><b>Slot:</b> ${startTimeSlot} - ${endTimeSlot}</div>
+          `);
+                            $('#Date').val(`${startDateSlot} - ${endDateSlot}`);
+                            $('#Time').val(`${startTimeSlot} - ${endTimeSlot}`);
+                            $('#service-id').val(`${productId}`);
+                        }
+                        else {
+                            //             console.log('eeee');
+                            $('.selectedSlot').html(`
+          <div><b>Date:</b> ${startDateSlot}</div>
+          <div><b>Time:</b> ${startTimeSlot} - ${endTimeSlot}</div>
+          `);
+                            $('#Date').val(`${startDateSlot}`);
+                            $('#Time').val(`${startTimeSlot} - ${endTimeSlot}`);
+                            $('#service-id').val(`${productId}`);
+                        }
+                        //Old date conversion
+                        let Minutes = 60 * result.data[0].expiresIn;
+                        //                         setLocalStorage('Timer', Minutes);
+                        startTimer(Minutes, display, productId, slotServiceId);
+                        $('.hover_bkgr_fricc').hide();
+                        if (result.status === 'ok') {
+                            $('.paymentButton').show();
+                          $('.paymentButton .shopify-payment-button').hide();
+                          
+                        }
+                    }
+                  else{
+                    $('.selectedSlot').hide();
+                    $('.expireTime').hide();
+                    $('#Date').val('');
+                    $('#Time').val('');
+                    $('#service-id').val('');
+                  }
+                }
+            });
+
+        });
+
+
+
+        // Add to cart button for making status provisional
+     if(slotServiceId){
+       	console.log('slotServiceId?>>>>>>>>>>>>>>',slotServiceId)
+        $('.paymentButton').click(function () {
+            let productId = $('#service-id').val();
+            if (JSON.parse(getLocalStorage('Timer'))) {
+                localStorageObj = JSON.parse(getLocalStorage('Timer'));
+                if (localStorageObj.hasOwnProperty(productId)) {
+                    timer = localStorageObj[productId];
+                    timeObj = JSON.parse(getLocalStorage('cartTimer'));
+                    if (timeObj) {
+                        console.log('timeObj if block', timeObj)
+                        timeObj = { ...timeObj, ...{ [String(productId)]: timer } }
+                    }
+                    else {
+                        timeObj = { [String(productId)]: timer }
+                    }
+                    setLocalStorage('cartTimer', JSON.stringify(timeObj));
+                }
+            }
+            else {
+                console.log('dddd>>>>else ', timeObj)
+                timeObj = {};
+            }
+            cartTimerIntialization(productId)
+            cartContents()
+            console.log('productId',productId)
+            console.log('slotServiceId',slotServiceId);
+      		if(productId){
+            serviceStatusProvisional(productId);
+            }
+        });
+    }
+    
+      window.onbeforeunload = function (event) {
+    //             $('.paymentButton').hide();
+                $('#Date').val('');
+                $('#Time').val('');
+                $('#service-id').val('');
+            }
+        }
+        // cart page js for making status removed
+        $('.cart__remove').click(async function () {
+          if($(this).parent().find('ul.product-details li:nth-child(4)').text()){
+              let originalId = $(this).parent().find('ul.product-details li:nth-child(4)').text();
+              let productIdSplit = originalId.split(':');
+              let productId = productIdSplit[1].trim();
+              localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
+              delete localStorageObj[productId];
+              removeLocalStorage('cartTimer');
+              setLocalStorage('cartTimer', JSON.stringify(localStorageObj));
+              await serviceStatusRemove(productId, slotServiceId);
+            }
+        });
+    
+    });
+
+
 
 3. Save the file
 4. click on **Add a new asset** >> click on **Create a blank file** and add  **custom.css.liquid** and copy following code - 
@@ -1559,3 +1503,5 @@ Theme will be added in the theme library. Now go to  -
 >     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 10.  Click Save.
+
+
