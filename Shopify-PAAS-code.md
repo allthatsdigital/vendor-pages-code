@@ -737,9 +737,17 @@ Theme will be added in the theme library. Now go to  -
     var interval;
 	var cartItem;
 	var slotServiceId = $('#serviceId').val();
-    var token = "token";
-    var serviceUrl = "https://beta-service.marketcube.io/api";
-    var clientUrl = "https://mc-beta-paas-ui.onrender.com";
+    var token = "token";	
+    var serviceUrl = "https://beta-service.marketcube.io/api"; // for BETA environment
+			 // for TEST environment change to 
+		         //"https://test-service.marketcube.io/api";  
+			 // for UAT environment change to
+			 //"https://uat-service.marketcube.io/api";
+    var clientUrl = "https://mc-beta-paas-ui.onrender.com"; // for BETA environment
+			 // for TEST environment change to
+		    	 //"https://mc-test-product-as-a-service-ui.onrender.com";
+		    	 // for UAT environment change to
+		    	 //"https://mc-uat-paas-ui.onrender.com";
     var timeObj = {};
     var tempTimeObj = {};
     var timerObj = {};
@@ -1298,8 +1306,13 @@ Theme will be added in the theme library. Now go to  -
 
 
 
-3. Save the file
-4. click on **Add a new asset** >> click on **Create a blank file** and add  **custom.css.liquid** and copy following code - 
+3. Change the URLs according to the environment in the above custom.js file (change the following urls ) - 
+
+>       var serviceUrl = "https://beta-service.marketcube.io/api";
+>        var clientUrl = "https://mc-beta-paas-ui.onrender.com";
+
+4. Save the file
+5. click on **Add a new asset** >> click on **Create a blank file** and add  **custom.css.liquid** and copy following code - 
 
 /* custom.css.liquid */
 	
@@ -1487,13 +1500,13 @@ Theme will be added in the theme library. Now go to  -
     }
     /* Popup box BEGIN */
 
-5.  click on **Save**
-6.  Add following code just above `<script>` tag and after `<style>` tag
+6.  click on **Save**
+7.  Add following code just above `<script>` tag and after `<style>` tag
 
       {{ 'custom.css' | asset_url | stylesheet_tag }}
 
-7. Click save
-8. Now link  **custom.js and other required libraries** by adding following code in **theme.liquid** (same file as mentioned in point 6) before `<head>` tag.
+8. Click save
+9. Now link  **custom.js and other required libraries** by adding following code in **theme.liquid** (same file as mentioned in point 6) before `<head>` tag.
 
 >     <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>  
 >       
@@ -1503,6 +1516,6 @@ Theme will be added in the theme library. Now go to  -
 > 
 >     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-9.  Click Save.
+10.  Click Save.
 
 
