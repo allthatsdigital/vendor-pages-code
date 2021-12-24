@@ -1291,7 +1291,7 @@ Theme will be added in the theme library. Now go to  -
         // cart page js for making status removed
         $('.cart__remove').click(async function () {
           if($(this).parent().find('ul.product-details li:nth-child(4)').text()){
-              let originalId = $(this).parent().find('ul.product-details li:nth-child(4)').text();
+              let originalId = $(this).parent().find('ul.product-details li:last-child').text();
               let productIdSplit = originalId.split(':');
               let productId = productIdSplit[1].trim();
               localStorageObj = JSON.parse(getLocalStorage('cartTimer'));
