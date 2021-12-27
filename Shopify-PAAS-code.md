@@ -1068,7 +1068,7 @@ Theme will be added in the theme library. Now go to  -
         	console.log('shopifyProductId',shopifyProductId);
         	$.ajax({
               type:'get',
-              url:`https://lnb-mc.myshopify.com/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
+              url:`https://${window.location.hostname}/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
               //`https://product-as-a-service.myshopify.com/admin/api/2020-04/products/${shopifyProductId}/variants/${variantId}/metafields.json`,
               success: function (result) {
                 console.log('>>>>>>>>>>>>>>',result)
