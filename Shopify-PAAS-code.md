@@ -279,7 +279,7 @@ Theme will be added in the theme library. Now go to  -
                 <!-- End Fetching Product Tag -->
                 
                 <!--- Frame --> 
-                <a class="btn btn-primary trigger_popup_fricc"> Check Availabiltiy</a>
+                <a class="btn btn-primary trigger_popup_fricc">Check Availability</a>
                 
 <label>{{ product.options }}</label>
 
