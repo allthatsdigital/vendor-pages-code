@@ -1501,7 +1501,7 @@ Theme will be added in the theme library. Now go to  -
     /* Popup box BEGIN */
 
 6.  click on **Save**
-7.  Add following code just above `<script>` tag and after `<style>` tag
+7.  Open Theme.lequid and add following code just above `<script>` tag and after `<style>` tag
 
       {{ 'custom.css' | asset_url | stylesheet_tag }}
 
@@ -1516,6 +1516,18 @@ Theme will be added in the theme library. Now go to  -
 > 
 >     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-10.  Click Save.
+10.  Add following code just after `<body>` tag start in the above **theme.lequid** file - 
+
+	  /* pop up code after timer expires*/
+	  
+		    <div class="timerPopUp">
+	    	      <span class="helper"></span>
+	    	      <div>
+			    		  <p>Your service has been expired<br />Add your service again!</p>
+			    		  <button type="button" class="btn btn-default timerCloseButton">Ok</button>
+	    	      </div>
+    	    </div>
+
+11.  Click Save.
 
 
