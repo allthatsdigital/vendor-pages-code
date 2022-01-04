@@ -864,10 +864,11 @@ Theme will be added in the theme library. Now go to  -
     function startTimer(duration, display, productId, slotServiceId) {
         console.log('slotServiceId', slotServiceId);
         console.log('productId', productId);
-        let timer = 0;
         let minutes;
         let seconds;
-        timer = 900;
+        let localStorageTimer = JSON.parse(getLocalStorage('Timer'));
+  	let timer = localStorageTimer && localStorageTimer[productId] ? localStorageTimer[productId] : 900;
+  	
         console.log('timer', timeObj);
         clearInterval(interval);
         interval = setInterval(function () {
