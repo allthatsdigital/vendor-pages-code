@@ -867,7 +867,7 @@ Theme will be added in the theme library. Now go to  -
         let minutes;
         let seconds;
         let localStorageTimer = JSON.parse(getLocalStorage('Timer'));
-  	let timer = localStorageTimer && localStorageTimer[productId] ? localStorageTimer[productId] : 900;
+	    let timer = localStorageTimer && localStorageTimer[productId] ? localStorageTimer[productId] : 900;
   	
         console.log('timer', timeObj);
         clearInterval(interval);
