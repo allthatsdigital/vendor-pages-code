@@ -1456,6 +1456,13 @@ Theme will be added in the theme library. Now go to  -
         pointer-events: none;
     }
     
+    .cart__qty-input {
+  	-webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;          
+     }
+    
     /* ul.product-details li:nth-child(4), .inputQuantity {
         display: none;
     } */
