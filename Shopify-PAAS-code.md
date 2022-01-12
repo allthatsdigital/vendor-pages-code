@@ -1511,7 +1511,7 @@ Theme will be added in the theme library. Now go to  -
 6.  click on **Save**
 7.  Open Theme.lequid and add following code just above `<script>` tag and after `<style>` tag
 
-      {{ 'custom.css' | asset_url | stylesheet_tag }}
+      > `{{ 'custom.css' | asset_url | stylesheet_tag }}`
 
 8. Click save
 9. Now link  **custom.js and other required libraries** by adding following code in **theme.liquid** (same file as mentioned in point 6) before `<head>` tag.
