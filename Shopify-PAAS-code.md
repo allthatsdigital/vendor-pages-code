@@ -228,8 +228,8 @@ Theme will be added in the theme library. Now go to  -
                  
                 <!-- quantity box -->
                 <div class="inputQuantity">
-                <label for="quantity">Qty: </label>
-				<input type="number" id="quantity" name="quantity" value="" />
+                	<label for="quantity">Qty: </label>
+			<input type="number" id="quantity" name="quantity" value=1 />
                 </div>
                 <!-- End quantity box -->
                 <!-- Line item values -->
