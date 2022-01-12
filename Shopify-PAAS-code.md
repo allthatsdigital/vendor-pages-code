@@ -1526,7 +1526,6 @@ Theme will be added in the theme library. Now go to  -
 
 10.  Add following code just after `<body>` tag start in the above **theme.lequid** file - 
 
-	  /* pop up code after timer expires*/
 	  
 		    <div class="timerPopUp">
 	    	      <span class="helper"></span>
