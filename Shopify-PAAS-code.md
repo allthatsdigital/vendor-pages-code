@@ -1524,7 +1524,7 @@ Theme will be added in the theme library. Now go to  -
 > 
 >     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-10.  Add following code just after `<body>` tag start in the above **theme.lequid** file - 
+10.  Add following code just after `<body>` tag start in the above **theme.liquid** file - 
 
 	  
 		    <div class="timerPopUp">
