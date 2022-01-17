@@ -739,15 +739,15 @@ Theme will be added in the theme library. Now go to  -
 	var slotServiceId = $('#serviceId').val();
     var token = "token";	
     var serviceUrl = "https://beta-service.marketcube.io/api"; // for BETA environment
-    			 // for Production environment 
+    		// for Production environment 
 			 // https://service.marketcube.io/api
 			 // for TEST environment change to 
 		         //"https://test-service.marketcube.io/api";  
 			 // for UAT environment change to
 			 //"https://uat-service.marketcube.io/api";
     var clientUrl = "https://mc-beta-paas-ui.onrender.com"; // for BETA environment
-    			 // for Production environment
-			 // https://pass.marketcube.io/ 
+    		// for Production environment
+			 // https://paas.marketcube.io/ 
 			 // for TEST environment change to
 		    	 //"https://mc-test-product-as-a-service-ui.onrender.com";
 		    	 // for UAT environment change to
