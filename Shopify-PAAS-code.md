@@ -1141,18 +1141,12 @@ Theme will be added in the theme library. Now go to  -
             $('.paymentButton').hide();
     		console.log('inside side')
             $(".trigger_popup_fricc").click(async function () {
-                const token = await checkLocalStorage();
-              console.log('clientUrl', clientUrl);
+              const token = await checkLocalStorage();
+	      const css= {bg: "green", color: "white"};
               let shopifyProductId = $('#shopifyProductId').attr('data-variant');
-              var shopifyToken = "2e0182580669522fa232501231d70721";
-              console.log('shopifyProductId', shopifyProductId);
                 $('.hover_bkgr_fricc').show();
-                   $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}`);
-    //            $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}&token=${token}&productId=${shopifyProductId}&shopifyToken=${shopifyToken}`);
+		 $('#myframe').attr('src', `${clientUrl}/slotbooking/${slotServiceId}?token=${token}&css=${JSON.stringify(css)}`);
             });         
-
-  
-
 
         // Iframe hide making get request
         $('.hover_bkgr_fricc').click(async function () {
